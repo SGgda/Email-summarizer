@@ -11,7 +11,8 @@
   ],
   "host_permissions": [
     "https://mail.google.com/*",
-    "http://localhost:3000/*"
+    "http://localhost:3000/*",
+    "https://email-summarizer-9v5h.onrender.com/*"
   ],
   "background": {
     "service_worker": "background.js"

@@ -8,7 +8,10 @@ dotenv.config();
 const app = express();
 const PORT = 3000;
 
-app.use(cors());
+app.use(cors({
+  origin: "*", // ✅ Allow all origins — or use ["https://mail.google.com"] for stricter control
+  methods: ["GET", "POST"]
+}));
 app.use(express.json());
 
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
