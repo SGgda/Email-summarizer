@@ -72,7 +72,7 @@ function extractEmailContentAndSendToBackend() {
 
   const text = emailContent.innerText || emailContent.textContent;
 
-  fetch("http://localhost:3000/summarize", {
+  fetch("https://email-summarizer-9v5h.onrender.com/summarize", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ text })
