@@ -23,6 +23,21 @@ function showSummaryPopup(summary){
     cursor: move;
   `;
 
+  const contentHTML = loading
+    ? `<div style="text-align:center;margin-top:40px;">
+         <div class="loader" style="
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: auto;
+          "></div>
+         <p>Generating summary...</p>
+       </div>`
+    : `<div style="margin-top: 8px;">${content.replace(/\n/g, "<br>")}</div>`;
+
   popup.innerHTML = `
     <div style="display:flex; justify-content:space-between; align-items:center;">
       <strong>AI Summary</strong>
@@ -30,6 +45,7 @@ function showSummaryPopup(summary){
     </div>
     <hr />
     <div style="margin-top: 8px;">${summary.replace(/\n/g, "<br>")}</div>
+    ${contentHTML}
   `;
 
   document.body.appendChild(popup);
@@ -71,6 +87,8 @@ function extractEmailContentAndSendToBackend() {
   }
 
   const text = emailContent.innerText || emailContent.textContent;
+
+  showSummaryPopup("", true);
 
   fetch("https://email-summarizer-9v5h.onrender.com/summarize", {
     method: "POST",
