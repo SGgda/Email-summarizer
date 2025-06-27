@@ -1,4 +1,4 @@
-function showSummaryPopup(summary){
+function showSummaryPopup(content, loading = false) {
   const oldPopup = document.getElementById("gemini-summary-popup");
   if (oldPopup) oldPopup.remove();
 
@@ -44,7 +44,6 @@ function showSummaryPopup(summary){
       <button id="close-summary-popup" style="border:none; background:#f44336; color:#fff; padding:4px 8px; border-radius:4px; cursor:pointer;">X</button>
     </div>
     <hr />
-    <div style="margin-top: 8px;">${summary.replace(/\n/g, "<br>")}</div>
     ${contentHTML}
   `;
 
@@ -58,7 +57,7 @@ function showSummaryPopup(summary){
   let offsetX, offsetY;
 
   popup.addEventListener("mousedown", (e) => {
-    if (e.target.tagName === "BUTTON") return; // Ignore drag when clicking the close button
+    if (e.target.tagName === "BUTTON") return;
     isDragging = true;
     offsetX = e.clientX - popup.getBoundingClientRect().left;
     offsetY = e.clientY - popup.getBoundingClientRect().top;
@@ -76,7 +75,21 @@ function showSummaryPopup(summary){
     isDragging = false;
     popup.style.cursor = "move";
   });
+
+  // Spinner animation styles (once)
+  if (!document.getElementById("popup-style")) {
+    const style = document.createElement("style");
+    style.id = "popup-style";
+    style.innerHTML = `
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    `;
+    document.head.appendChild(style);
+  }
 }
+
 
 function extractEmailContentAndSendToBackend() {
   const emailContent = document.querySelector("div.ii.gt");
